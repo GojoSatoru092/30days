@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 Bulan Bersama Penguin 🐧💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+  background:linear-gradient(180deg,#ffefba,#ff7eb3);
+  min-height:100vh;
+  overflow:hidden;
+  color:#fff;
+  text-align:center;
+}
+section{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:24px;
+  opacity:0;
+  transform:translateY(30px);
+  pointer-events:none;
+  transition:1.3s ease;
+}
+section.active{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+h1,p,.typewriter{
+  background:rgba(0,0,0,.25);
+  padding:12px 16px;
+  border-radius:14px;
+}
+h1{font-size:2.2rem;margin-bottom:14px;}
+p{font-size:1.05rem;max-width:360px;line-height:1.6;}
+.typewriter{
+  font-size:1.35rem;
+  line-height:1.8;
+  white-space:pre-wrap;
+}
+.btn{
+  margin-top:22px;
+  padding:12px 28px;
+  border:none;
+  border-radius:30px;
+  background:#fff;
+  color:#ff4d6d;
+  font-size:1rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  cursor:pointer;
+}
+.btn-group{
+  display:flex;
+  gap:14px;
+  margin-top:26px;
+}
+.back{background:#ffd6e0;}
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:0}
+  10%{opacity:1}
+  100%{transform:translateY(-120vh);opacity:0}
+}
+.final-card{
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(10px);
+  border-radius:22px;
+  padding:22px 20px;
+  max-width:360px;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+  animation:breath 6s ease-in-out infinite;
+}
+@keyframes breath{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.015)}
+}
+.final-love{
+  font-weight:600;
+  color:#fff;
+  text-shadow:
+    0 0 6px #fff,
+    0 0 12px #ff8fb1,
+    0 0 22px #ff4d6d;
+  animation:loveGlow 3s ease-in-out infinite;
+}
+@keyframes loveGlow{
+  0%,100%{opacity:.85}
+  50%{opacity:1}
+}
+.btn.replay{
+  margin-top:18px;
+  font-size:.9rem;
+  background:rgba(255,255,255,.95);
+}
+</style>
+</head>
+
+<body>
+
+<section class="active">
+  <h1>Hai Penguin 🐧💖</h1>
+  <p>Hari ini menandai satu bulan penuh keajaiban bersama kamu ✨</p>
+  <button class="btn" onclick="next()">Rayakan 💌</button>
+</section>
+
+<section>
+  <h1>30 Hari Bersamamu ✨</h1>
+  <p>Setiap hari terasa lebih hangat, lebih ringan, dan lebih indah 💖</p>
+  <div class="btn-group">
+    <button class="btn back" onclick="prev()">⬅</button>
+    <button class="btn" onclick="next()">Next</button>
+  </div>
+</section>
+
+<section>
+  <div id="loveLetter" class="typewriter"></div>
+  <div class="btn-group">
+    <button class="btn back" onclick="prev()">⬅</button>
+    <button class="btn" onclick="goToFinal()">Read My Final Message 💌</button>
+  </div>
+</section>
+
+<section>
+  <div class="final-card">
+    <div id="typewriterFinal" class="typewriter"></div>
+    <button class="btn replay" onclick="typeFinal()">Replay Letter 💌</button>
+  </div>
+</section>
+
+<script>
+const sections=document.querySelectorAll("section");
+let i=0;
+
+function showSection(n){
+  sections.forEach(s=>s.classList.remove("active"));
+  sections[n].classList.add("active");
+  i=n;
+}
+function next(){ if(i<sections.length-1) showSection(i+1); }
+function prev(){ if(i>0) showSection(i-1); }
+
+/* HEARTS */
+function spawnHeart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText=["❤️","💖","💕","💘"][Math.floor(Math.random()*4)];
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(4+Math.random()*3)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+}
+setInterval(spawnHeart,500);
+
+/* LOVE LETTER */
+const loveLines=[
+  "Cintaku 💖,",
+  "Satu bulan bersamamu terasa seperti sesuatu yang hatiku tunggu.",
+  "Dalam waktu sesingkat ini,",
+  "kamu menjadi tempat ternyamanku.",
+  "Tempat aku merasa dipahami.",
+  "Tempat aku ingin pulang.",
+  "",
+  "Sekarang, aku ingin mengatakan satu hal lagi…"
+];
+const loveLetter=document.getElementById("loveLetter");
+let li=0,ci=0;
+
+function typeLove(){
+  if(li<loveLines.length){
+    if(ci<loveLines[li].length){
+      loveLetter.innerHTML+=loveLines[li][ci++];
+      setTimeout(typeLove,45);
+    }else{
+      loveLetter.innerHTML+="<br>";
+      ci=0;li++;
+      setTimeout(typeLove,380);
+    }
+  }
+}
+sections[2].addEventListener("transitionend",()=>{
+  if(sections[2].classList.contains("active") && loveLetter.innerHTML===""){
+    typeLove();
+  }
+});
+
+/* FINAL TYPEWRITER — FIXED */
+const finalLines=[
+  "Sayang",
+  "Jika aku jujur,",
+  "mencintaimu terasa tenang.",
+  "Tidak terburu-buru.",
+  "Tidak berisik.",
+  "",
+  "I Love You So Much, My Little Penguin 🐧❤️"
+];
+const finalBox=document.getElementById("typewriterFinal");
+
+let finalTimer = null;
+let isTypingFinal = false;
+
+function typeFinal(){
+  if(finalTimer) clearTimeout(finalTimer);
+  isTypingFinal = true;
+  finalBox.innerHTML="";
+
+  let l=0,c=0;
+  function type(){
+    if(!isTypingFinal) return;
+
+    if(l<finalLines.length){
+      if(c<finalLines[l].length){
+        finalBox.innerHTML+=finalLines[l][c++];
+        finalTimer=setTimeout(type,55);
+      }else{
+        finalBox.innerHTML+="<br>";
+        c=0;l++;
+        finalTimer=setTimeout(type,420);
+      }
+    }else{
+      finalBox.innerHTML = finalBox.innerHTML.replace(
+        "I Love You So Much, My Little Penguin 🐧❤️",
+        "<span class='final-love'>I Love You So Much, My Little Penguin 🐧❤️</span>"
+      );
+      isTypingFinal=false;
+    }
+  }
+  type();
+}
+
+function goToFinal(){
+  showSection(3);
+  typeFinal();
+}
+</script>
+
+</body>
+</html>
